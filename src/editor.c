@@ -31,7 +31,6 @@ void startNook(char *nookBuff) {
   initscr();
   raw();
   keypad(stdscr, TRUE);
-  noecho();
 
   int x = 0, y = 0;
 
@@ -78,10 +77,14 @@ void startNook(char *nookBuff) {
       }
     }
     clear();
-    for (int i = 0; i <= HEIGHT; i++) {
-      //      mvprintw(i, 0, "%.*s", WIDTH, &nookBuff[i * WIDTH]);
+    int len = strlen(nookBuff);
+    int rows = (len + WIDTH - 1) / WIDTH;
+    for (int i = 0; i < rows; i++) {
+      mvprintw(i, 0, "%.*s", WIDTH, &nookBuff[i * WIDTH]);
     }
   }
+
+  storeBuffToFile();
 
   cleanUp(nookBuff);
   endwin();

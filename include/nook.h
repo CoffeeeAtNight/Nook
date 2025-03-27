@@ -22,5 +22,6 @@ void startNook(char *nookBuff);
 size_t loadFileToMem(const char *fileToLoad, char **nookBuff);
 static inline char *INIT_NOOK_BUFF(size_t allocSize);
 void cleanUp(char *nookBuff);
+void storeBuffToFile(char *nookBuff, const char *filePath);
 
 #endif // !NOOK_H
