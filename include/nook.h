@@ -18,7 +18,7 @@
   } while (0)
 
 int bootNook(const char *filePath);
-void startNook(char *nookBuff);
+void startNook(char *nookBuff, const char *filePath);
 size_t loadFileToMem(const char *fileToLoad, char **nookBuff);
 static inline char *INIT_NOOK_BUFF(size_t allocSize);
 void cleanUp(char *nookBuff);

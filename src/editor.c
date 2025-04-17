@@ -23,11 +23,11 @@ int bootNook(const char *filePath) {
            loadFileToMem(filePath, &nookBuff));
   }
 
-  startNook(nookBuff);
+  startNook(nookBuff, filePath);
   return 0;
 }
 
-void startNook(char *nookBuff) {
+void startNook(char *nookBuff, const char *filePath) {
   initscr();
   raw();
   keypad(stdscr, TRUE);
@@ -84,10 +84,21 @@ void startNook(char *nookBuff) {
     }
   }
 
-  storeBuffToFile();
+  storeBuffToFile(nookBuff, filePath);
 
   cleanUp(nookBuff);
   endwin();
+}
+
+void storeBuffToFile(char *nookBuff, const char *filePath) {
+  printf("Storing changes in file");
+  FILE *fp;
+
+  if ((fp = fopen(filePath, "w+")) == NULL) {
+    printf("Error occurred while trying to store changes in file");
+  }
+
+  memcpy(filePath, nookBuff, sizeof(nookBuff));
 }
 
 size_t loadFileToMem(const char *fileToLoad, char **nookBuff) {
@@ -98,7 +109,7 @@ size_t loadFileToMem(const char *fileToLoad, char **nookBuff) {
 
   if ((fp = fopen(fileToLoad, "r+")) == NULL)
     if ((fp = fopen(fileToLoad, "w+")) == NULL)
-      ERROR_RETURN("Error occurred trying to read/create the file", 0);
+      ERROR_RETURN("Error occurred trying to read/create the file", 1);
 
   fseek(fp, 0, SEEK_END);
   size = ftell(fp);
